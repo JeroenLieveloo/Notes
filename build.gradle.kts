@@ -1,29 +1,23 @@
 plugins {
-    kotlin("multiplatform") version "2.2.21"
+    kotlin("jvm") version "2.3.0-RC"
+    application
 }
 
-kotlin {
-    js {
-        binaries.executable()
-        browser{
-            commonWebpackConfig {
-                outputFileName = "frontend.js"
-            }
-        }
-    }
-    sourceSets{
-        val jsMain by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-react:18.2.0-pre.686")
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom:18.2.0-pre.686")
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-emotion:11.11.1-pre.686")
-            }
-        }
-    }
+dependencies {
+    implementation("io.ktor:ktor-server-core:3.0.0")
+    implementation("io.ktor:ktor-server-netty:3.0.0")
+    implementation("io.ktor:ktor-server-html-builder:3.0.0")
+
+    implementation("org.xerial:sqlite-jdbc:3.45.2.0")
+
+    implementation("org.slf4j:slf4j-simple:2.0.9")
 }
+
+application {
+    mainClass.set("MainKt")
+}
+
 
 repositories {
     mavenCentral()
 }
-
-
