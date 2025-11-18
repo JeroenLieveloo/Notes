@@ -1,0 +1,127 @@
+:root{
+    --primary: #689df2;
+    --base: 8px;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    gap: 1em;
+}
+
+li {
+}
+
+.primary{
+    background-color: var(--primary);
+}
+
+.secondary{
+    background-color: #f26868;
+}
+
+.spaced-menu{
+    display: flex;
+    flex: 0 0 auto;
+    justify-content: space-between;
+    padding: 10px 12px;
+}
+
+.centered{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+  }
+
+.circle{
+    border-radius: 50%;
+}
+
+
+.small{
+    font-size: 0.5em;
+    width: 15px;
+    height: 15px;
+}
+
+.large{
+    font-size: 2em;
+    width: 80px;
+    height: 80px;
+}
+
+
+
+.card{
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: var(--base);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    width: 500px;
+    height: 200px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.card:hover .secondary-hover{
+    background-color: #f26868;
+}
+
+textarea {
+    flex: 1;
+    padding: 1em;
+    border-radius: var(--base);
+    border: none;
+    resize: none;
+    box-sizing: border-box;
+
+}
+
+.hidden-action{
+    transition: all 0.2s;
+    border-radius: var(--base);
+    opacity: 0;
+    height: 1em;
+    width: 100%;
+}
+
+.hidden-action:hover{
+    opacity: 0.5;
+    height: 2em;
+}
+
+form{
+    display: flex;
+    align-items: end;
+    margin: 0;
+    gap: 0.5em;
+}
+
+.timestamp{
+    font-size: 0.8em;
+    color: gray;
+}
+
+
+
+input[type="submit"] {
+    border: none;
+    color: white;
+    cursor: pointer;
+}
