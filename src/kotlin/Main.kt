@@ -16,7 +16,7 @@ import domain.service.ThreadManager
 import io.ktor.server.application.Application
 
 
-val logger: Logger = LoggerFactory.getLogger("Main")
+val logger: Logger =    LoggerFactory.getLogger("Main")
 
 fun main() {
     try {
