@@ -9,43 +9,42 @@ import io.ktor.server.html.*
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.io.File
 
 import domain.model.*
 import domain.service.ThreadManager
 import io.ktor.server.application.Application
 
 
-val logger: Logger =    LoggerFactory.getLogger("Main")
+val logger: Logger = LoggerFactory.getLogger("Main")
 
 fun main() {
     try {
         embeddedServer(Netty, port = 8080) {
             module()
         }.start(wait = true)
-    } catch (e: Exception){
+    } catch (e: Exception) {
         println("Exception: $e.")
     }
 }
 
-fun Application.module(){
+fun Application.module() {
     val threadManager = ThreadManager(Repository())
 
     routing {
-        staticFiles("/static", File("src/main/resources/static"))
+        staticResources("/static", "static")
 
         get("/") {
-            try{
+            try {
                 val threads = threadManager.getThreads()
                 call.respondHtml {
                     threadsPage(threads)
                 }
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 logger.debug(e.message)
             }
         }
 
-        post("/save"){
+        post("/save") {
             val params = call.receiveParameters()
             val id = params["id"]?.toIntOrNull()
             val note = params["note"]?.trim().orEmpty()
@@ -56,16 +55,16 @@ fun Application.module(){
             )
             threadManager.createOrUpdateThread(thread, parentId)
             logger.info("Saved thread: $note")
-            call.respondRedirect ("/")
+            call.respondRedirect("/")
         }
 
-        post("/delete"){
+        post("/delete") {
             val params = call.receiveParameters()
             val threadId = params["id"]?.toIntOrNull()
-            if (threadId != null){
+            if (threadId != null) {
                 threadManager.deleteThread(threadId)
                 logger.info("Deleting thread: $threadId")
-                call.respondRedirect ("/")
+                call.respondRedirect("/")
             }
         }
 
