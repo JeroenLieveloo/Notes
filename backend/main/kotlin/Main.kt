@@ -7,6 +7,9 @@ import io.ktor.server.response.*
 import io.ktor.server.http.content.*
 import io.ktor.server.html.*
 
+import io.ktor.serialization.kotlinx.json.*
+import io.ktor.server.plugins.contentnegotiation.*
+
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -30,6 +33,11 @@ fun main() {
 fun Application.module() {
     val threadManager = ThreadManager(Repository())
 
+
+    install(ContentNegotiation) {
+        json()
+    }
+
     routing {
         staticResources("/static", "static")
 
@@ -50,8 +58,7 @@ fun Application.module() {
             val note = params["note"]?.trim().orEmpty()
             val parentId = params["parentId"]?.toIntOrNull()
             val thread = Thread(
-                id,
-                note
+                id, note
             )
             threadManager.createOrUpdateThread(thread, parentId)
             logger.info("Saved thread: $note")
@@ -72,6 +79,10 @@ fun Application.module() {
             logger.debug("Resetting database")
             threadManager.reset()
             call.respondRedirect("/")
+        }
+
+        get("/thread") {
+            call.respond(threadManager.getThreads())
         }
     }
 }

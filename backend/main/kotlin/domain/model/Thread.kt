@@ -1,6 +1,5 @@
 package domain.model
 
-import kotlinx.html.currentTimeMillis
 import java.time.Instant
 
 data class Thread(

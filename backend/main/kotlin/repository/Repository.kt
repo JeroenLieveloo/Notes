@@ -4,8 +4,8 @@ import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.Types
 
-class Repository(dbPath: String = "threads.db") : ThreadStorage {
-    private val connection: Connection = DriverManager.getConnection("jdbc:sqlite:threads.db")
+class Repository(dbPath: String = "backend/main/kotlin/data/threads.db") : ThreadStorage {
+    private val connection: Connection = DriverManager.getConnection("jdbc:sqlite:${dbPath}")
 
     init {
         createDatabase()

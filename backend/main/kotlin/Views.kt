@@ -104,7 +104,7 @@ fun FlowContent.note(thread: Thread, parentId: Int?) {
 
         hiddenInput {
             name = "parentId"
-            value = thread.id.toString();
+            value = thread.id.toString()
         }
         submitInput(classes = "hidden-action primary"){
             value = "+"
