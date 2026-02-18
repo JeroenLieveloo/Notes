@@ -5,13 +5,14 @@
 
 
 body {
+    margin: 0;
     font-family: Arial, sans-serif;
-    margin: 40px auto;
-    padding: 20px;
     background-color: #f9f9f9;
 }
 
 h1 {
+    margin: 0;
+    padding: 40px;
     text-align: center;
     color: #333;
 }
@@ -39,6 +40,7 @@ li {
     flex: 0 0 auto;
     justify-content: space-between;
     padding: 10px 12px;
+    pointer: grab;
 }
 
 .centered{
@@ -50,6 +52,7 @@ li {
 
 .circle{
     border-radius: 50%;
+    border-width: 0;
 }
 
 
@@ -65,7 +68,24 @@ li {
     height: 80px;
 }
 
+.reset-button{
+    background: var(--primary);
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: var(--base);
+}
 
+.reset-button:hover{
+    border: red;
+}
+
+.link {
+  background-image: linear-gradient(to bottom, black, black), linear-gradient(to right, black, black), linear-gradient(to bottom, black, black);
+  background-size: 2px, 50% 2px, 50% 2px;
+  background-position: center, top left, bottom right;
+  background-repeat: no-repeat;
+}
 
 .card{
     display: flex;
@@ -75,7 +95,6 @@ li {
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     width: 500px;
     height: 200px;
-    margin: 0 auto;
     box-sizing: border-box;
 }
 
@@ -90,12 +109,11 @@ textarea {
     border: none;
     resize: none;
     box-sizing: border-box;
-
 }
 
 .hidden-action{
-    transition: all 0.2s;
     border-radius: var(--base);
+    border: none;
     opacity: 0;
     height: 1em;
     width: 100%;
@@ -124,4 +142,39 @@ input[type="submit"] {
     border: none;
     color: white;
     cursor: pointer;
+}
+
+
+.connect-area{
+    cursor: grab;
+    border-radius: var(--base);
+    background: none;
+    position: absolute;
+    height: 20px;
+    left: 0px;
+    right: 0px;
+    bottom: -20px;
+}
+
+.connect-area:hover{
+    box-shadow: 0 0 var(--base) var(--primary);
+}
+
+#cursor-anchor{
+    position: fixed;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+#canvas{
+    width: 100vw;
+    height: 100vh;
+}
+
+.connect-cursor{
+    visibility: true;
+    width: 10px;
+    height: 10px;
+    background: var(--primary);
 }

@@ -4,13 +4,14 @@ plugins {
 }
 
 kotlin {
-    jvm()        // backend
-    js(IR) { browser() } // frontend
+    jvm()
+    js(IR) { browser() }
 
     sourceSets {
-        commonMain {
+        val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
             }
         }
     }
@@ -18,5 +19,4 @@ kotlin {
 
 repositories {
     mavenCentral()
-//    google()
 }

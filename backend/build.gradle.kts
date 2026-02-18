@@ -1,3 +1,5 @@
+val ktor_version = "3.0.0"
+
 plugins {
     kotlin("jvm") version "2.0.0"
     application
@@ -10,16 +12,20 @@ application {
 
 dependencies {
     implementation(project(":shared"))
-    implementation("io.ktor:ktor-server-core:3.0.0")
-    implementation("io.ktor:ktor-server-netty:3.0.0")
-    implementation("io.ktor:ktor-server-html-builder:3.0.0")
+    implementation("io.ktor:ktor-server-core:${ktor_version}")
+    implementation("io.ktor:ktor-server-netty:${ktor_version}")
+//    implementation("io.ktor:ktor-server-html-builder:${ktor_version}")
+    implementation("io.ktor:ktor-server-cors:${ktor_version}")
+    implementation("io.ktor:ktor-server-content-negotiation:${ktor_version}")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:${ktor_version}")
 
     implementation("org.xerial:sqlite-jdbc:3.45.2.0")
 
     implementation("org.slf4j:slf4j-simple:2.0.9")
 
-    implementation("io.ktor:ktor-server-content-negotiation-jvm:2.3.7")
-    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:2.3.7")
+
+
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
 }
 
 repositories {

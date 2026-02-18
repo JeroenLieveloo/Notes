@@ -1,16 +1,10 @@
-import kotlinx.browser.document
-import web.dom.Element as WebElement
-import react.dom.client.createRoot
-import react.FC
-import react.Props
 import react.create
-
-val App = FC<Props> { +"Hello from Kotlin/JS!" }
+import react.dom.client.createRoot
+import web.dom.document
 
 fun main() {
-    val container = document.getElementById("root")
+    val root = document.getElementById("root")
         ?: error("Missing <div id=\"root\"> in index.html")
 
-    // cast org.w3c.dom.Element -> web.dom.Element expected by the wrapper
-    createRoot(container.unsafeCast<WebElement>()).render(App.create())
+    createRoot(root).render(App.create())
 }
