@@ -21,20 +21,7 @@ class NoteManager(private val storage: NoteStorage) {
     }
 
     suspend fun getNotes(): List<Note> {
-        val notes = storage.getAllNotes().map { convertNoteEntityToNote(it) }
-
-        if (notes.isEmpty()) {
-            createOrUpdateNote(
-                NoteRequest(
-                    null,
-                    "",
-                    0,
-                    0
-                )
-            )
-            return storage.getAllNotes().map { convertNoteEntityToNote(it) }
-        }
-        return notes
+        return storage.getAllNotes().map { convertNoteEntityToNote(it) }
     }
 
     fun reset(){

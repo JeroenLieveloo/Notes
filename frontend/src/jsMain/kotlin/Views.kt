@@ -32,6 +32,10 @@ val NoteList: FC<NoteListProps> = FC { props ->
             lineDrawer.resetLeaderLines(props.connections)
         }
 
+        onMouseOver = {
+            lineDrawer.setEnd(null)
+        }
+
         onDoubleClick = {
             scope.launch {
                 createNote(
@@ -66,6 +70,9 @@ val NoteList: FC<NoteListProps> = FC { props ->
 val NoteCard = FC<NoteProps> { props ->
     val note = props.note
     div {
+        id = note.id.toString()
+        className = ClassName("card")
+
         style = jso {
             //place the note at its stored position
             position = Position.absolute
@@ -74,69 +81,60 @@ val NoteCard = FC<NoteProps> { props ->
         }
 
         onDoubleClick = { it.stopPropagation() }
+        onMouseOver = { it.stopPropagation() }
 
+        div { // HEADER
+            className = ClassName("spaced-menu")
 
-        div {
-            id = note.id.toString()
-            className = ClassName("card")
+            draggable = true
 
-            div { // HEADER
-                className = ClassName("spaced-menu")
+            onDragStart = {
+                offsetX = note.positionX - it.clientX.toInt()
+                offsetY = note.positionY - it.clientY.toInt()
+            }
 
-                draggable = true
-
-                onDragStart = {
-                    offsetX = note.positionX - it.clientX.toInt()
-                    offsetY = note.positionY - it.clientY.toInt()
+            onDragEnd = {
+                val noteRequest = NoteRequest(
+                    note.id,
+                    note.text,
+                    it.clientX.toInt() + offsetX,
+                    it.clientY.toInt() + offsetY,
+                )
+                scope.launch {
+                    updateNote(noteRequest)
+                    props.onRefresh()   // 🔥 reload UI
                 }
+            }
 
-                onDragEnd = {
-                    val noteRequest = NoteRequest(
-                        note.id,
-                        note.text,
-                        it.clientX.toInt() + offsetX,
-                        it.clientY.toInt() + offsetY,
-                    )
+
+            timestamp {
+                createdOn = note.createdOn
+                updatedOn = note.updatedOn
+            }
+
+            button {
+                className = ClassName("circle small secondary-hover")
+                onClick = {
                     scope.launch {
-                        updateNote(noteRequest)
+                        deleteNote(note.id)
                         props.onRefresh()   // 🔥 reload UI
-                    }
-                }
-
-
-                timestamp {
-                    createdOn = note.createdOn
-                    updatedOn = note.updatedOn
-                }
-
-                button {
-                    className = ClassName("circle small secondary-hover")
-                    onClick = {
-                        scope.launch {
-                            deleteNote(note.id)
-                            props.onRefresh()   // 🔥 reload UI
-                        }
                     }
                 }
             }
-            textarea {
-                defaultValue = note.text
+        }
+        textarea {
+            defaultValue = note.text
 
-//                onMouseDown = { it.stopPropagation() }
-//                onDrag = { it.stopPropagation() }
-//                onDragStart = { it.stopPropagation() }
-
-                onBlur = { event ->
-                    val noteRequest = NoteRequest(
-                        note.id,
-                        event.target.value,
-                        note.positionX,
-                        note.positionY,
-                    )
-                    scope.launch {
-                        updateNote(noteRequest)
-                        props.onRefresh()   // 🔥 reload UI
-                    }
+            onBlur = { event ->
+                val noteRequest = NoteRequest(
+                    note.id,
+                    event.target.value,
+                    note.positionX,
+                    note.positionY,
+                )
+                scope.launch {
+                    updateNote(noteRequest)
+                    props.onRefresh()   // 🔥 reload UI
                 }
             }
         }
@@ -148,10 +146,6 @@ val NoteCard = FC<NoteProps> { props ->
                 lineDrawer.setEnd(note.id)
             }
 
-            onMouseOut = {
-                lineDrawer.setEnd(null)
-            }
-
             onMouseDown = {
                 lineDrawer.startCursorLine(note.id)
             }
@@ -161,7 +155,7 @@ val NoteCard = FC<NoteProps> { props ->
                     createAndConnectNote(
                         note.id,
                         note.positionX,
-                        note.positionY + 300
+                        note.positionY + 250
                     )
                     props.onRefresh()   // 🔥 reload UI2
                 }

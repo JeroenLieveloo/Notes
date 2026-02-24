@@ -12,7 +12,6 @@ import react.*
 private val scope = MainScope()
 
 val App = FC<Props> {
-//    val connectionManager = LineDrawer();
 
     var notes by useState<List<Note>>(emptyList())
     var connections by useState<List<Connection>>(emptyList())

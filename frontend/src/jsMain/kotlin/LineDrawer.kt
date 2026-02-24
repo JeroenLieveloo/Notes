@@ -63,7 +63,7 @@ class LineDrawer {
 
     fun setEnd(endId: Int?){
         if (startId == null) return
-        if (endId == startId) return
+//        if (endId == startId) return
         if(cursorLine == null) createCursorLine()
         if (endId == null) {
             cursorLine?.setEnd(cursorElement)

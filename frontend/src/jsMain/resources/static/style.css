@@ -35,13 +35,6 @@ li {
     background-color: #f26868;
 }
 
-.spaced-menu{
-    display: flex;
-    flex: 0 0 auto;
-    justify-content: space-between;
-    padding: 10px 12px;
-    pointer: grab;
-}
 
 .centered{
     display: block;
@@ -96,10 +89,19 @@ li {
     width: 500px;
     height: 200px;
     box-sizing: border-box;
+    z-index: 1;
 }
 
 .card:hover .secondary-hover{
     background-color: #f26868;
+}
+
+.spaced-menu{
+    display: flex;
+    flex: 0 0 auto;
+    justify-content: space-between;
+    padding: 10px 12px;
+    cursor: grab;
 }
 
 textarea {
@@ -110,6 +112,22 @@ textarea {
     resize: none;
     box-sizing: border-box;
 }
+
+.connect-area{
+    border-radius: var(--base);
+    background: none;
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
+    z-index: -1;
+    cursor: crosshair;
+}
+.connect-area:hover{
+    box-shadow: 0 0 var(--base) var(--primary);
+}
+
 
 .hidden-action{
     border-radius: var(--base);
@@ -145,20 +163,9 @@ input[type="submit"] {
 }
 
 
-.connect-area{
-    cursor: grab;
-    border-radius: var(--base);
-    background: none;
-    position: absolute;
-    height: 20px;
-    left: 0px;
-    right: 0px;
-    bottom: -20px;
-}
 
-.connect-area:hover{
-    box-shadow: 0 0 var(--base) var(--primary);
-}
+
+
 
 #cursor-anchor{
     position: fixed;

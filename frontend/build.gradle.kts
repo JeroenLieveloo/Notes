@@ -5,8 +5,8 @@ plugins {
 
 kotlin {
     js(IR) {
-        binaries.executable() // marks it as JS app
         browser {
+            binaries.executable() // marks it as JS app
             commonWebpackConfig {
                 outputFileName = "frontend.js"
                 devServer = devServer?.apply {

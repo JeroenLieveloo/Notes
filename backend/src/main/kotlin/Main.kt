@@ -19,6 +19,8 @@ import domain.model.*
 import domain.service.NoteManager
 import domain.service.ConnectionManager
 import io.ktor.server.request.receive
+import kotlinx.io.files.Path
+import java.io.File
 
 val logger: Logger = LoggerFactory.getLogger("Main")
 
@@ -42,7 +44,12 @@ fun Application.module() {
     }
 
     routing {
-        staticResources("/static", "static")
+
+        //staticResources("/static", "static", "index.html")
+        val buildLocation = File("Tasks/frontend/build/dist/js/developmentExecutable").absoluteFile
+        staticFiles("/", buildLocation) {
+            default("index.html")
+        }
 
         get("/notes") {
             call.respond(noteManager.getNotes())
