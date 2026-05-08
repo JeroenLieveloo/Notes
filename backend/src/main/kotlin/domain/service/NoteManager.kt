@@ -45,4 +45,8 @@ class NoteManager(private val storage: NoteStorage) {
             storage.updateNote(noteRequest)
         }
     }
+
+    suspend fun moveNote(noteId: Int, x: Int, y: Int): Int?{
+        return storage.moveNote(noteId, x, y)
+    }
 }

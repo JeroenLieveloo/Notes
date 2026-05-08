@@ -9,6 +9,7 @@ interface NoteStorage {
     suspend fun getAllNotes(): List<NoteEntity>
     suspend fun getNoteById(noteId: Int): NoteEntity?
     fun reset()
+    fun moveNote(noteId: Int, x: Int, y: Int): Int?
 }
 
 interface ConnectionStorage {

@@ -66,6 +66,14 @@ fun Application.module() {
             call.respond(id)
         }
 
+        post("/move") {
+            val note = call.receive<NotePosition>()
+            val id = noteManager.moveNote(note.id, note.positionX, note.positionY)?: 0
+            logger.info("Moving note: ${note.id}")
+            call.respond(id)
+        }
+
+
         post("/connect"){
             val request = call.receive<Connection>()
             connectionManager.createOrUpdateConnection(request)

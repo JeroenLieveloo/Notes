@@ -11,6 +11,7 @@ data class Note(
     val positionY: Int,
     val createdOn: Instant? = null,
     val updatedOn: Instant? = null,
+    var isSelected: Boolean = false,
 )
 
 @Serializable
@@ -20,7 +21,14 @@ data class NoteRequest(
     val positionX: Int,
     val positionY: Int
 )
-//
+
+
+@Serializable
+data class NotePosition(
+    val id: Int,
+    val positionX: Int,
+    val positionY: Int
+)
 //@Serializable
 //data class NoteResponse(
 //    val id: Int,

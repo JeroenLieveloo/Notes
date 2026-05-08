@@ -67,6 +67,19 @@ private suspend fun saveNote(note: NoteRequest): Int {
     return response.text().await().toInt()
 }
 
+suspend fun moveNote(notePosition: NotePosition): Int {
+    val response = window.fetch("$url/move",
+        RequestInit(
+            method = "POST",
+            headers = json(
+                "Content-Type" to "application/json"
+                ),
+            body = Json.encodeToString(notePosition)
+        ),
+    ).await()
+    return response.text().await().toInt()
+}
+
 suspend fun deleteNote(noteId: Int?) {
     console.log("Deleting note $noteId")
     window.fetch("$url/delete?id=$noteId",

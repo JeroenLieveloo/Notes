@@ -190,6 +190,24 @@ class Repository(dbPath: String = "Tasks/backend/src/main/kotlin/data/notes.db")
         }
     }
 
+    override fun moveNote(noteId: Int, x: Int, y: Int): Int? {
+        databaseConnection.prepareStatement(
+            """
+            UPDATE notes 
+            SET updatedOn = ?, positionX = ?, positionY = ?
+            WHERE id = ?
+            """.trimIndent(),
+            java.sql.Statement.RETURN_GENERATED_KEYS
+        ).use { statement ->
+            statement.setLong(1,System.currentTimeMillis())
+            statement.setInt(2, x)
+            statement.setInt(3, y)
+            statement.setInt(4, noteId)
+            statement.executeUpdate()
+            return noteId?: throw IllegalStateException("Updated note, but no ID was given.")
+        }
+    }
+
     override suspend fun deleteNote(noteId: Int) {
         databaseConnection.prepareStatement(
             """
