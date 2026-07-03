@@ -37,7 +37,7 @@ fun main() {
 fun Application.module() {
     val noteManager = NoteManager(Repository())
     val connectionManager = ConnectionManager(Repository())
-    corsConfiguration()
+//    corsConfiguration()
 
     install(ContentNegotiation) {
         json()
@@ -103,13 +103,14 @@ fun Application.module() {
     }
 }
 
-private fun Application.corsConfiguration() {
-    install(CORS) {
-        allowHost("localhost:3000", schemes = listOf("http"))
-        allowMethod(HttpMethod.Get)
-        allowMethod(HttpMethod.Post)
-        allowMethod(HttpMethod.Options)
-        allowMethod(HttpMethod.Delete)
-        allowHeader(HttpHeaders.ContentType)
-    }
-}
+//CORS not needed anymore because frontend is served by backend
+//private fun Application.corsConfiguration() {
+//    install(CORS) {
+//        allowHost("localhost:3000", schemes = listOf("http"))
+//        allowMethod(HttpMethod.Get)
+//        allowMethod(HttpMethod.Post)
+//        allowMethod(HttpMethod.Options)
+//        allowMethod(HttpMethod.Delete)
+//        allowHeader(HttpHeaders.ContentType)
+//    }
+//}

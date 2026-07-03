@@ -11,23 +11,18 @@ external interface BoardProps : Props {
     var noteEntities: List<Note>
     var connections: List<Connection>
     var onRefresh: () -> Unit
-    var moveNotes: (Set<String>, Double, Double) -> Unit
-    var saveNotePositions: () -> Unit
-    var selectNote: (String, Boolean) -> Unit
-
-
-}
-
-
-external interface CardHandle {
-    fun setPosition(x: Int, y: Int)
+    var moveNotes: (Set<String>, Boolean, Double, Double) -> Unit
+    var updateNotes: (List<Note>, Boolean) -> Unit
+    var saveNotePosition: (Int) -> Unit
 }
 
 external interface NoteProps : Props {
     var note: Note
     var onRefresh: () -> Unit
     var isSelected: Boolean
-    var onSelect: (MouseEvent<*, *>, String) -> Unit
+    var setSelected: (Int, Boolean, Boolean) -> Unit
+    var dragStart: (MouseEvent<*, *>) -> Unit
+    var dragEnd: (MouseEvent<*, *>) -> Unit
 }
 
 

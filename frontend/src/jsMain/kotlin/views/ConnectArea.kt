@@ -12,25 +12,10 @@ import web.cssom.ClassName
 val ConnectArea = FC<NoteProps> { props ->
     val note = props.note
     div {
-        draggable = false
         className = ClassName("connect-area")
 
-
-        onDragStart = { event ->
-            event.preventDefault()
-            event.stopPropagation()
-        }
-
-        onDrag = { event ->
-            event.stopPropagation()
-        }
-
-        onDragEnd = { event ->
-            event.stopPropagation()
-        }
-
         onMouseDown = { event ->
-            lineDrawer.startCursorLine(note.id)
+            connector.startCursorLine(note.id)
             event.stopPropagation()
         }
 
@@ -41,7 +26,7 @@ val ConnectArea = FC<NoteProps> { props ->
                     note.positionX,
                     note.positionY + 250
                 )
-                props.onRefresh()   // 🔥 reload UI2
+                props.onRefresh()
             }
             event.stopPropagation()
         }

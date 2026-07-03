@@ -3,35 +3,45 @@ import domain.model.Connection
 import domain.model.Note
 import domain.model.NoteRequest
 import kotlinx.coroutines.launch
-import react.useEffectOnce
-import react.useState
-
 import kotlinx.coroutines.MainScope
 
-import react.*
-import react.dom.events.MouseEvent
-import views.*
+import react.useEffectOnce
+import react.useState
+import react.Props
+import react.FC
 
-private val scope = MainScope()
+
+import views.Board
 
 val App = FC<Props> {
 
     val (noteEntities, setNoteEntities) = useState<List<Note>>(emptyList())
     val (connections, setConnections) = useState<List<Connection>>(emptyList())
-    val (selectedIds, setSelectedIds) = useState<Set<String>>(emptySet())
 
 
-    val toggleSelectNote = fun(id: String, multi: Boolean) {
-        setSelectedIds { prev ->
-            if (multi) {
-                if (prev.contains(id)) prev else prev + id
-            } else {
-                setOf(id)
+    val updateNotes = fun(notesToUpdate: List<Note>, saveToDatabase: Boolean) {
+        notesToUpdate.forEach { note ->
+            setNoteEntities{ prev ->
+                prev.map { currNote ->
+                    if (notesToUpdate.contains(currNote)) note
+                    else currNote
+                }
+            }
+            if (saveToDatabase) {
+                MainScope().launch {
+                    val noteRequest = NoteRequest(
+                        note.id,
+                        note.text,
+                        note.positionX,
+                        note.positionY
+                    )
+                    updateNote(noteRequest)
+                }
             }
         }
     }
 
-    val moveNotes = fun(selectedIds: Set<String>, dx: Double, dy: Double) {
+    val moveNotes = fun(selectedIds: Set<String>, save: Boolean, dx: Double, dy: Double) {
         setNoteEntities { prev ->
             prev.map { note ->
                 if (selectedIds.contains(note.id.toString())) {
@@ -42,18 +52,19 @@ val App = FC<Props> {
                 } else note
             }
         }
-    }
-
-    val saveNotePositions = fun() {
-        noteEntities.forEach { note ->
-            val noteRequest = NoteRequest(
-                note.id,
-                note.text,
-                note.positionX,
-                note.positionY
-            )
+        if (save) {
             MainScope().launch {
-                updateNote(noteRequest)
+                noteEntities.filter { note ->
+                    selectedIds.contains(note.id.toString())
+                }.forEach { note ->
+                    val noteRequest = NoteRequest(
+                        note.id,
+                        note.text,
+                        note.positionX,
+                        note.positionY
+                    )
+                    updateNote(noteRequest)
+                }
             }
         }
     }
@@ -67,7 +78,7 @@ val App = FC<Props> {
 //    }
 
     fun getData(){
-        scope.launch {
+        MainScope().launch {
             setNoteEntities(getNotes())
             setConnections(getConnections())
         }
@@ -77,18 +88,12 @@ val App = FC<Props> {
         getData()
     }
 
-    Menu {
-        this.onDelete = {
-//            deleteSelectedNotes() todo?
-            getData() }
-    }
-
     Board {
         this.noteEntities = noteEntities
         this.connections = connections
         this.onRefresh = { getData() }
         this.moveNotes = moveNotes
-        this.saveNotePositions = saveNotePositions
-        this.selectNote = toggleSelectNote
+        this.updateNotes = updateNotes
+        this.saveNotePosition = saveNotePosition
     }
 }

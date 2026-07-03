@@ -22,6 +22,7 @@ val Header = FC<NoteProps> { props ->
         }
 
         button {
+            //Delete button
             className = ClassName("circle small secondary-hover")
             onClick = {
                 MainScope().launch {
@@ -30,20 +31,5 @@ val Header = FC<NoteProps> { props ->
                 }
             }
         }
-
-        onMouseOver = { event ->
-            lineDrawer.setEnd(note.id)
-            event.stopPropagation()
-        }
-
-        onMouseDown = { event ->
-            props.onSelect(event, note.id.toString())
-            event.stopPropagation()
-        }
-
-//        onClick = { event ->
-//            event.stopPropagation()
-//        }
-
     }
 }

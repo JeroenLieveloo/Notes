@@ -35,13 +35,6 @@ class Line(private var startElement: HTMLElement, private var endElement: HTMLEl
         line = createLine()
     }
 
-    fun setStart(newStartElement: HTMLElement) {
-        if (newStartElement == endElement) return
-        startElement = newStartElement
-        line.remove()
-        line = createLine()
-    }
-
     private fun createLine() : LeaderLine {
         val newLine = LeaderLine(startElement, endElement,
             jso {
@@ -49,7 +42,6 @@ class Line(private var startElement: HTMLElement, private var endElement: HTMLEl
             })
         return newLine
     }
-
 
     fun getStartElement(): HTMLElement = startElement
     fun getEndElement(): HTMLElement = endElement

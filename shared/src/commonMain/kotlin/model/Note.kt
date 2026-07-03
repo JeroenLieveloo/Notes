@@ -12,7 +12,12 @@ data class Note(
     val createdOn: Instant? = null,
     val updatedOn: Instant? = null,
     var isSelected: Boolean = false,
-)
+){
+    override fun equals(other: Any?): Boolean =
+        other is Note && other.id == id
+
+    override fun hashCode(): Int = id.hashCode()
+}
 
 @Serializable
 data class NoteRequest(

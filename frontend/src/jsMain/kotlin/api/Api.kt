@@ -6,20 +6,23 @@ import kotlinx.serialization.json.Json
 import kotlinx.coroutines.await
 import org.w3c.fetch.RequestInit
 import kotlin.js.json
+import web.location.location
 
 import kotlinx.serialization.encodeToString
 
 //TODO this url only works on same device as host.
-const val url = "http://localhost:8080"
+//const val url = "http://localhost:8080"
+//val baseUrl = location.origin
+
 
 suspend fun getNotes(): List<Note> {
-    val response = window.fetch("$url/notes").await()
+    val response = window.fetch("/notes").await()
     val text = response.text().await()
     return Json.decodeFromString(text)
 }
 
 suspend fun createNote(x: Int = 0, y: Int = 0): Int {
-    println("Creating note.")
+    console.log("Creating note.")
     return saveNote(
         NoteRequest(
             null,
@@ -31,7 +34,7 @@ suspend fun createNote(x: Int = 0, y: Int = 0): Int {
 }
 
 suspend fun createAndConnectNote(connectedId: Int, x: Int = 0, y: Int = 0): Int {
-    println("Creating and connecting note to $connectedId.")
+    console.log("Creating and connecting note to $connectedId.")
     val createdId = saveNote(
         NoteRequest(
             null,
@@ -48,14 +51,14 @@ suspend fun createAndConnectNote(connectedId: Int, x: Int = 0, y: Int = 0): Int 
     return createdId
 }
 suspend fun updateNote(request: NoteRequest): Int {
-    println("Updating note ${request.id}")
+    console.log("Updating note ${request.id}")
     return saveNote(request)
 }
 
 
 
 private suspend fun saveNote(note: NoteRequest): Int {
-    val response = window.fetch("$url/save",
+    val response = window.fetch("/save",
         RequestInit(
             method = "POST",
             headers = json(
@@ -68,7 +71,7 @@ private suspend fun saveNote(note: NoteRequest): Int {
 }
 
 suspend fun moveNote(notePosition: NotePosition): Int {
-    val response = window.fetch("$url/move",
+    val response = window.fetch("/move",
         RequestInit(
             method = "POST",
             headers = json(
@@ -82,7 +85,7 @@ suspend fun moveNote(notePosition: NotePosition): Int {
 
 suspend fun deleteNote(noteId: Int?) {
     console.log("Deleting note $noteId")
-    window.fetch("$url/delete?id=$noteId",
+    window.fetch("/delete?id=$noteId",
         RequestInit(
             method = "DELETE"
         )
@@ -90,14 +93,14 @@ suspend fun deleteNote(noteId: Int?) {
 }
 
 suspend fun getConnections(): List<Connection> {
-    val response = window.fetch("$url/connections").await()
+    val response = window.fetch("/connections").await()
     val text = response.text().await()
     return Json.decodeFromString(text)
 }
 
 suspend fun saveConnection (request: Connection) {
-    println("Saving connection ${request.startId} to ${request.endId}")
-    window.fetch("$url/connect",
+    console.log("Saving connection ${request.startId} to ${request.endId}")
+    window.fetch("/connect",
         RequestInit(
             method = "POST",
             headers = json(
@@ -110,7 +113,7 @@ suspend fun saveConnection (request: Connection) {
 
 suspend fun deleteConnection(connectionId: Int?) {
     console.log("Deleting connection $connectionId")
-    window.fetch("$url/disconnect?id=$connectionId",
+    window.fetch("/disconnect?id=$connectionId",
         RequestInit(
             method = "DELETE"
         )
@@ -118,8 +121,8 @@ suspend fun deleteConnection(connectionId: Int?) {
 }
 
 suspend fun reset(){
-    println("Resetting connection.")
-    window.fetch("$url/reset",
+    console.log("Resetting connection.")
+    window.fetch("/reset",
         RequestInit(
             method = "POST"
         )

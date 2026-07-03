@@ -26,15 +26,34 @@ val Card = FC<NoteProps> { props ->
             top = note.positionY.px
         }
 
+        onMouseOver = { event ->
+            connector.setEnd(note.id)
+            event.stopPropagation()
+        }
 
-        onClick = { event ->
+        onMouseDown = { event ->
+            if(event.ctrlKey || event.shiftKey)
+                props.setSelected(note.id, !props.isSelected, true)
+            else
+                props.setSelected(note.id, true, props.isSelected)
+            props.dragStart(event)
+            event.stopPropagation()
+
+        }
+
+        onMouseUp = { event ->
+            props.dragEnd(event)
+        }
+
+        onDoubleClick = { event ->
+            // to prevent the board from creating a card
             event.stopPropagation()
         }
 
         Header {
             this.note = note
             this.onRefresh = props.onRefresh
-            this.onSelect = props.onSelect
+            this.setSelected = props.setSelected
         }
         TextArea {
             this.onRefresh = props.onRefresh
@@ -44,6 +63,5 @@ val Card = FC<NoteProps> { props ->
             this.onRefresh = props.onRefresh
             this.note = note
         }
-
     }
 }
