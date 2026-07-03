@@ -44,4 +44,4 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-/backend/src/main/kotlin/data/
+/backend/src/main/kotlin/data/**
